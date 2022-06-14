@@ -12,14 +12,12 @@ class ApiLoginController extends AbstractController
 {
 
     /**
+     * Login with email / password over api
      * @OA\Post(description="Login",
-     *   @OA\RequestBody(
-     *       required=true,
-     *       @OA\MediaType(
-     *           mediaType="application/json",
-     *           @OA\Schema(
-     *               type="object",
-     *               @OA\Property(  property="username", type="string",  example="alan@digial.co.uk" ),
+     *   @OA\RequestBody(  required=true,
+     *       @OA\MediaType(mediaType="application/json",
+     *           @OA\Schema( type="object",
+     *               @OA\Property(  property="email", type="string",  example="alan@digial.co.uk" ),
      *               @OA\Property( property="password", type="string", example="alanjeeves"
      *               ),
      *           )
@@ -39,12 +37,11 @@ class ApiLoginController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-
-
+        // should generate token from auth server
         $token = 'TOK' . $user->getUserIdentifier();
 
        return $this->json([
-             'user'  => $user->getUserIdentifier(),
+             'email'  => $user->getUserIdentifier(),
            'token' => $token,
            'id' => $user->getId()
        ]);

@@ -15,6 +15,7 @@ class AddressController extends BaseController
 {
 
     /**
+     * Add new Address
      * @OA\Post(description="New Address",
      *   @OA\RequestBody(
      *       required=true,
@@ -53,6 +54,9 @@ class AddressController extends BaseController
     }
 
 
+    /**
+     * Get all addresses linked to logged in user
+     */
     #[Route('/v1/address', name: 'address_list', methods: 'GET')]
     public function addressList(AddressRepository $addressRepository): Response
     {

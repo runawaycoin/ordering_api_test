@@ -205,7 +205,7 @@ class OrderControllerTest extends WebTestCase
 
     public static function loginAsUser(): int
     {
-        $responseData = self::postJson( '/v1/login',  ['username'=>'alan@digial.co.uk', 'password' => 'alanjeeves']);
+        $responseData = self::postJson( '/v1/login',  ['email'=>'alan@digial.co.uk', 'password' => 'alanjeeves']);
         $userId = $responseData->id;
         self::assertNotNull($userId);
         return $userId;
@@ -213,7 +213,7 @@ class OrderControllerTest extends WebTestCase
 
     public static function loginAsAdmin(): int
     {
-        $responseData = self::postJson( '/v1/login',  ['username'=>'admin@orders.com', 'password' => 'adminadmin']);
+        $responseData = self::postJson( '/v1/login',  ['email'=>'admin@orders.com', 'password' => 'adminadmin']);
         $userId = $responseData->id;
         self::assertNotNull($userId);
         return $userId;

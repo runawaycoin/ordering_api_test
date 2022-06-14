@@ -28,7 +28,7 @@ security:
             # see: Symfony\Component\Security\Http\Authenticator\JsonLoginAuthenticator
             json_login:
                 check_path: api_login
-                username_path: username
+                username_path: email
                 password_path: password
 
            # custom_authenticator: App\Security\ApiAuthenticator

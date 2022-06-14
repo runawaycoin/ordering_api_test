@@ -23,6 +23,7 @@ class OrderController extends BaseController
 {
 
     /**
+     * Create new order, using already existing address & items
      * @OA\Post(description="New Order",
      *   @OA\RequestBody(
      *       required=true,
@@ -90,7 +91,7 @@ class OrderController extends BaseController
 
 
     /**
-     *
+     * list orders by logged-in user
      * @OA\Parameter(name="order",in="query", required=false, @OA\Schema(type="number", example=4))
      * @OA\Parameter(name="status",in="query", required=false, @OA\Schema(type="string", example="delivered"))
      */
@@ -116,6 +117,7 @@ class OrderController extends BaseController
 
 
     /**
+     * Update status and/or expected delivery of an order
      * @OA\Patch(description="Update Order Status",
      *   @OA\RequestBody(
      *       required=true,
@@ -160,7 +162,9 @@ class OrderController extends BaseController
     }
 
 
-
+    /**
+     * List all delayed orders
+     */
     #[Route('/v1/admin/orders/delayed', name: 'delayed_orders', methods: 'GET')]
     public function delayedOrders(DelayedOrderRepository $delayedOrderRepository): Response
     {

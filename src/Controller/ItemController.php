@@ -15,7 +15,8 @@ class ItemController extends BaseController
 {
 
     /**
-     * @OA\Post(description="Login",
+     * Add new Item
+     * @OA\Post(description="Add Item",
      *   @OA\RequestBody(
      *       required=true,
      *       @OA\MediaType(
@@ -50,6 +51,9 @@ class ItemController extends BaseController
         return $this->json('', 422);
     }
 
+    /**
+     * Get all items
+     */
     #[Route('/v1/item', name: 'items', methods: 'GET')]
     public function items(ItemRepository $itemRepository): Response
     {
