@@ -159,17 +159,12 @@ class AddUserCommand extends Command
 
         // create the user and hash its password
         $user = new User();
-       // $user->setFullName($fullName);
-       // $user->setUsername($username);
         $user->setEmail($email);
         $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
 
         // See https://symfony.com/doc/5.4/security.html#registering-the-user-hashing-passwords
         $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
         $user->setPassword($hashedPassword);
-
-
-
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

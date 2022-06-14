@@ -2,17 +2,35 @@
 
 namespace App\Controller;
 
-use App\Security\ApiAuthenticator;
+use App\Entity\User;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ApiLoginController extends AbstractController
 {
-    #[Route('/api/login', name: 'api_login', methods: 'POST')]
-    public function login(ApiAuthenticator $authenticator, Request $request): Response
+
+    /**
+     * @OA\Post(description="Login",
+     *   @OA\RequestBody(
+     *       required=true,
+     *       @OA\MediaType(
+     *           mediaType="application/json",
+     *           @OA\Schema(
+     *               type="object",
+     *               @OA\Property(  property="username", type="string",  example="alan@digial.co.uk" ),
+     *               @OA\Property( property="password", type="string", example="alanjeeves"
+     *               ),
+     *           )
+     *       )
+     *   ),
+     *  )
+     */
+    #[Route('/v1/login', name: 'api_login', methods: 'POST')]
+    public function login(): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
 
         if (null === $user) {
@@ -21,13 +39,14 @@ class ApiLoginController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $firewallName = 'main';
-        //$token =  (new UsernamePasswordToken($user, $firewallName, $user->getRoles()))->;
+
+
         $token = 'TOK' . $user->getUserIdentifier();
 
        return $this->json([
              'user'  => $user->getUserIdentifier(),
            'token' => $token,
+           'id' => $user->getId()
        ]);
     }
 }

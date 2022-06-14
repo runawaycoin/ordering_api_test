@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OrderItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OrderItemRepository::class)]
 class OrderItem
@@ -11,12 +12,15 @@ class OrderItem
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups('read')]
     private int $id;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups('read')]
     private int $quantity;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups('read')]
     private int $itemPrice;
 
     #[ORM\ManyToOne(targetEntity: Item::class)]
@@ -77,5 +81,11 @@ class OrderItem
         $this->parent = $parent;
 
         return $this;
+    }
+
+    #[Groups('read')]
+    public function getLineTotal(): int
+    {
+        return $this->getItemPrice() * $this->getQuantity();
     }
 }

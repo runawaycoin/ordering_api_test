@@ -66,4 +66,21 @@ class OrderRepository extends BaseRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+    public function updateDelayedOrders(): void
+    {
+
+        $orderRows = $this->getEntityManager()->getConnection()->executeQuery( 'select id, expected_delivery from `order` where expected_delivery <= CURRENT_TIME and status = ?', [Order::STATUS_SUBMITTED] )->fetchAllAssociative();
+
+
+        foreach ($orderRows as $orderData) {
+            dump($orderData);
+            // insert into delayed_order new row
+            $this->getEntityManager()->getConnection()->executeStatement('insert into delayed_order (order_parent_id, created, expected_delivery) VALUES(?, CURRENT_TIME, ?)',  [$orderData['id'], $orderData['expected_delivery'] ] );
+        }
+
+
+
+    }
 }

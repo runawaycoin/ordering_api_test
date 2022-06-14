@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\AddressRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 class Address
@@ -12,22 +13,29 @@ class Address
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups('read')]
     private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups('read')]
     private string $street;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups('read')]
     private string $city;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups('read')]
     private string $postcode;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'addresses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private UserInterface $user;
 
 
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +75,18 @@ class Address
     public function setPostcode(string $postcode): self
     {
         $this->postcode = $postcode;
+
+        return $this;
+    }
+
+    public function getUser(): ?UserInterface
+    {
+        return $this->user;
+    }
+
+    public function setUser(?UserInterface $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
