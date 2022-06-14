@@ -13,7 +13,7 @@ use Symfony\Contracts\Service\Attribute\Required;
     name: 'app:update-orders',
     description: 'Updates Submitted orders to Delayed if past delivery date'
 )]
-class UpdateOrdersCommand extends Command
+class ProcessDelayedOrdersCommand extends Command
 {
     #[Required]
     public OrderRepository $orderRepository;
