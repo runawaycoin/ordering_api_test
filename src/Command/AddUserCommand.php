@@ -34,6 +34,7 @@ use function Symfony\Component\String\u;
  * directory and execute the following:
  *
  *     $ php bin/console app:add-user
+ *     $ php bin/console app:add-user --admin
  *
  * To output detailed information, increase the command verbosity:
  *

@@ -4,6 +4,8 @@ namespace App\Utils;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
@@ -26,7 +28,6 @@ class BaseController extends AbstractController
             $defaultContext = [
                 AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
                     return null;
-                    //return $object->getName();
                 },
             ];
             $metadataAwareNameConverter = new MetadataAwareNameConverter($classMetadataFactory);
@@ -36,6 +37,19 @@ class BaseController extends AbstractController
         }
 
         return $this->serializer->normalize($entity, 'json', ['groups' => $groups]);
+    }
+
+    public function formErrorResponse(Form $form): JsonResponse
+    {
+        $errors = [];
+        foreach ($form->getErrors(true,true) as $error) {
+            $errors[] = [
+                'field' => $error->getOrigin()->getName(),
+                'message' => $error->getMessage()
+            ];
+        }
+
+        return $this->json(['errors'=>$errors], 422);
     }
 
 }

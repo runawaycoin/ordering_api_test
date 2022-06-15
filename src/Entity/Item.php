@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 class Item
@@ -17,10 +18,12 @@ class Item
 
     #[ORM\Column(type: 'integer')]
     #[Groups('read')]
+    #[Assert\GreaterThan(0)]
     private int $price;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups('read')]
+    #[Assert\NotBlank]
     private string $name;
 
     public function getId(): ?int
